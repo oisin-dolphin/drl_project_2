@@ -44,7 +44,7 @@ class Actor(nn.Module):
         """Build an actor (policy) network that maps states -> actions."""
         if state.dim() == 1:
             state.unsqueeze_(0)
-        x = F.leaky_relu(self.fc1(state))
+        x = F.relu(self.fc1(state))
         x = self.bn1(x)
         x = F.leaky_relu(self.fc2(x))
         return F.tanh(self.fc3(x))
@@ -84,7 +84,7 @@ class Critic(nn.Module):
         if state.dim() == 1:
             state = torch.unsqueeze(state, 0)
             state.unsqueeze_(0)
-        xs = F.leaky_relu(self.fcs1(state))
+        xs = F.relu(self.fcs1(state))
         xs = self.bn1(xs)
         x = torch.cat((xs, action), dim=1)
         x = F.leaky_relu(self.fc2(x))
